@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./theme-toggle";
 
 const navLinks = [
     { name: "About", href: "#about" },
@@ -21,7 +22,6 @@ export function Navigation() {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
 
-            // Update active section
             const sections = navLinks.map(link => link.href.slice(1));
             for (const section of sections.reverse()) {
                 const el = document.getElementById(section);
@@ -67,66 +67,72 @@ export function Navigation() {
                         whileHover={{ opacity: 0.7 }}
                         whileTap={{ scale: 0.98 }}
                     >
-                        RR
+                        Carpediem!
                     </motion.a>
 
                     {/* Desktop Navigation */}
-                    <ul className="hidden md:flex items-center gap-6">
-                        {navLinks.map((link) => (
-                            <li key={link.name}>
-                                <a
-                                    href={link.href}
-                                    onClick={(e) => handleNavClick(e, link.href)}
-                                    className={cn(
-                                        "text-sm transition-colors duration-200 relative py-1",
-                                        activeSection === link.href.slice(1)
-                                            ? "text-foreground"
-                                            : "text-muted-foreground hover:text-foreground"
-                                    )}
-                                >
-                                    {link.name}
-                                    {activeSection === link.href.slice(1) && (
-                                        <motion.div
-                                            className="absolute -bottom-0.5 left-0 right-0 h-px bg-foreground"
-                                            layoutId="activeNav"
-                                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                                        />
-                                    )}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
+                    <div className="hidden md:flex items-center gap-6">
+                        <ul className="flex items-center gap-6">
+                            {navLinks.map((link) => (
+                                <li key={link.name}>
+                                    <a
+                                        href={link.href}
+                                        onClick={(e) => handleNavClick(e, link.href)}
+                                        className={cn(
+                                            "text-sm transition-colors duration-200 relative py-1",
+                                            activeSection === link.href.slice(1)
+                                                ? "text-foreground"
+                                                : "text-muted-foreground hover:text-foreground"
+                                        )}
+                                    >
+                                        {link.name}
+                                        {activeSection === link.href.slice(1) && (
+                                            <motion.div
+                                                className="absolute -bottom-0.5 left-0 right-0 h-px bg-foreground"
+                                                layoutId="activeNav"
+                                                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                            />
+                                        )}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                        <ThemeToggle />
+                    </div>
 
-                    {/* Mobile Menu Button */}
-                    <button
-                        className="md:hidden p-2 text-foreground hover:bg-white/5 rounded transition-colors"
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        aria-label="Toggle menu"
-                    >
-                        <AnimatePresence mode="wait">
-                            {isMobileMenuOpen ? (
-                                <motion.div
-                                    key="close"
-                                    initial={{ rotate: -90, opacity: 0 }}
-                                    animate={{ rotate: 0, opacity: 1 }}
-                                    exit={{ rotate: 90, opacity: 0 }}
-                                    transition={{ duration: 0.15 }}
-                                >
-                                    <X size={20} />
-                                </motion.div>
-                            ) : (
-                                <motion.div
-                                    key="menu"
-                                    initial={{ rotate: 90, opacity: 0 }}
-                                    animate={{ rotate: 0, opacity: 1 }}
-                                    exit={{ rotate: -90, opacity: 0 }}
-                                    transition={{ duration: 0.15 }}
-                                >
-                                    <Menu size={20} />
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </button>
+                    {/* Mobile Menu Button + Theme Toggle */}
+                    <div className="flex items-center gap-2 md:hidden">
+                        <ThemeToggle />
+                        <button
+                            className="p-2 text-foreground hover:bg-secondary rounded transition-colors"
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            aria-label="Toggle menu"
+                        >
+                            <AnimatePresence mode="wait">
+                                {isMobileMenuOpen ? (
+                                    <motion.div
+                                        key="close"
+                                        initial={{ rotate: -90, opacity: 0 }}
+                                        animate={{ rotate: 0, opacity: 1 }}
+                                        exit={{ rotate: 90, opacity: 0 }}
+                                        transition={{ duration: 0.15 }}
+                                    >
+                                        <X size={20} />
+                                    </motion.div>
+                                ) : (
+                                    <motion.div
+                                        key="menu"
+                                        initial={{ rotate: 90, opacity: 0 }}
+                                        animate={{ rotate: 0, opacity: 1 }}
+                                        exit={{ rotate: -90, opacity: 0 }}
+                                        transition={{ duration: 0.15 }}
+                                    >
+                                        <Menu size={20} />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </button>
+                    </div>
                 </nav>
             </motion.header>
 

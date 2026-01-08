@@ -12,21 +12,12 @@ const socialLinks = [
 export function Contact() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-50px" });
-    const [formState, setFormState] = useState({
-        name: "",
-        email: "",
-        message: "",
-    });
+    const [formState, setFormState] = useState({ name: "", email: "", message: "" });
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+    const [submitStatus, setSubmitStatus] = useState<"idle" | "success">("idle");
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setFormState((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value,
-        }));
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -40,143 +31,99 @@ export function Contact() {
     };
 
     return (
-        <section id="contact" className="section" ref={ref}>
+        <section id="contact" className="py-8 md:py-10" ref={ref}>
             <div className="container">
-                {/* Section Header */}
                 <motion.div
-                    className="mb-8 max-w-2xl mx-auto"
+                    className="mb-6 max-w-3xl mx-auto"
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.5 }}
                 >
                     <p className="section-label">Contact</p>
                     <h2 className="section-title">Get in touch</h2>
-                    <p className="section-subtitle">Have a project in mind? Let&apos;s talk.</p>
                 </motion.div>
 
                 <div className="max-w-md mx-auto">
-                    {/* Email Link */}
                     <motion.div
-                        className="mb-8 text-center"
-                        initial={{ opacity: 0, y: 20 }}
+                        className="mb-5 text-center"
+                        initial={{ opacity: 0, y: 10 }}
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.5, delay: 0.1 }}
                     >
-                        <a
+                        <motion.a
                             href="mailto:rahulraut6334@gmail.com"
-                            className="inline-flex items-center gap-2 text-foreground hover:opacity-80 transition-opacity group"
+                            className="inline-flex items-center gap-1.5 text-sm text-foreground hover:opacity-80 transition-opacity group"
+                            whileHover={{ scale: 1.02 }}
                         >
-                            <Mail size={16} />
-                            <span>rahulraut6334@gmail.com</span>
-                            <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </a>
+                            <Mail size={14} />
+                            rahulraut6334@gmail.com
+                            <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </motion.a>
                     </motion.div>
 
-                    {/* Contact Form */}
                     <motion.form
                         onSubmit={handleSubmit}
-                        className="space-y-4"
-                        initial={{ opacity: 0, y: 20 }}
+                        className="space-y-3"
+                        initial={{ opacity: 0, y: 10 }}
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.5, delay: 0.2 }}
                     >
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <label htmlFor="name" className="block text-xs uppercase tracking-wider text-muted-foreground mb-2">
-                                    Name
-                                </label>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    value={formState.name}
-                                    onChange={handleChange}
-                                    required
-                                    className="input"
-                                    placeholder="Your name"
-                                />
+                                <label htmlFor="name" className="block text-[10px] uppercase tracking-wider text-muted-foreground mb-1.5">Name</label>
+                                <input type="text" id="name" name="name" value={formState.name} onChange={handleChange} required className="input text-sm" placeholder="Name" />
                             </div>
                             <div>
-                                <label htmlFor="email" className="block text-xs uppercase tracking-wider text-muted-foreground mb-2">
-                                    Email
-                                </label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value={formState.email}
-                                    onChange={handleChange}
-                                    required
-                                    className="input"
-                                    placeholder="you@email.com"
-                                />
+                                <label htmlFor="email" className="block text-[10px] uppercase tracking-wider text-muted-foreground mb-1.5">Email</label>
+                                <input type="email" id="email" name="email" value={formState.email} onChange={handleChange} required className="input text-sm" placeholder="Email" />
                             </div>
                         </div>
 
                         <div>
-                            <label htmlFor="message" className="block text-xs uppercase tracking-wider text-muted-foreground mb-2">
-                                Message
-                            </label>
-                            <textarea
-                                id="message"
-                                name="message"
-                                value={formState.message}
-                                onChange={handleChange}
-                                required
-                                rows={4}
-                                className="input resize-none"
-                                placeholder="Your message..."
-                            />
+                            <label htmlFor="message" className="block text-[10px] uppercase tracking-wider text-muted-foreground mb-1.5">Message</label>
+                            <textarea id="message" name="message" value={formState.message} onChange={handleChange} required rows={3} className="input text-sm resize-none" placeholder="Message..." />
                         </div>
 
-                        <button
+                        <motion.button
                             type="submit"
                             disabled={isSubmitting}
-                            className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="btn-primary w-full text-sm disabled:opacity-50"
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.99 }}
                         >
                             {isSubmitting ? (
-                                <motion.div
-                                    className="w-4 h-4 border-2 border-background border-t-transparent rounded-full"
-                                    animate={{ rotate: 360 }}
-                                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                />
+                                <motion.div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
                             ) : (
-                                <>
-                                    Send Message
-                                    <Send size={15} />
-                                </>
+                                <>Send <Send size={14} /></>
                             )}
-                        </button>
+                        </motion.button>
 
                         {submitStatus === "success" && (
-                            <motion.p
-                                className="text-center text-sm text-green-400"
-                                initial={{ opacity: 0, y: 5 }}
-                                animate={{ opacity: 1, y: 0 }}
-                            >
-                                ✓ Message sent! I&apos;ll get back to you soon.
+                            <motion.p className="text-center text-xs text-green-500" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }}>
+                                ✓ Sent! I&apos;ll reply soon.
                             </motion.p>
                         )}
                     </motion.form>
 
-                    {/* Social Links */}
                     <motion.div
-                        className="mt-8 flex justify-center gap-2"
+                        className="mt-5 flex justify-center gap-2"
                         initial={{ opacity: 0 }}
                         animate={isInView ? { opacity: 1 } : {}}
-                        transition={{ duration: 0.5, delay: 0.4 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
                     >
                         {socialLinks.map((social) => (
-                            <a
+                            <motion.a
                                 key={social.name}
                                 href={social.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="icon-btn"
                                 aria-label={social.name}
+                                whileHover={{ scale: 1.1, y: -2 }}
+                                whileTap={{ scale: 0.95 }}
                             >
-                                <social.icon size={18} />
-                            </a>
+                                <social.icon size={16} />
+                            </motion.a>
                         ))}
                     </motion.div>
                 </div>
